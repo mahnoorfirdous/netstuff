@@ -1,0 +1,25 @@
+syntax = "proto3";
+package updatealerter;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./samplepb";
+enum URGENCY{
+    LAX=0;
+    IMMEDIATE=2;
+    IMPORTANT=1;
+}
+
+
+
+message AlertRequest{
+    bool updateflag = 1;
+    google.protobuf.Timestamp alert_time = 2;
+    repeated string URLS = 3;
+    string callinghost = 5;
+    URGENCY stallcap = 6;
+}
+
+message Alert{
+    repeated AlertRequest request= 1;
+}
