@@ -1,0 +1,11 @@
+syntax="proto3";
+
+package alerter;
+
+option go_package = "./pbgen";
+
+message K8sInstance{
+    string k8sver = 1;
+    string k8sdistro = 2;
+    string context = 3;
+}

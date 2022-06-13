@@ -1,8 +1,7 @@
-export PATH :=$PATH:$(go env GOPATH)/bin
 
-demo:
-	protoc -I=./ --go_out=. ./message_def.proto
-	GOOS=linux GOARCH=386 CGO_ENABLED=0 go build -o protobufexample ./example/example.go
+codegen:
+
+	protoc -I=./protodef --go_out=src/pbgen --go_opt=paths=source_relative  --go-grpc_out=src/pbgen --go-grpc_opt=paths=source_relative protodef/alert.proto
 clean_example:
 	rm samplepb/*pb.go
 

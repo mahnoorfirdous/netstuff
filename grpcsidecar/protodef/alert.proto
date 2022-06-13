@@ -1,0 +1,39 @@
+syntax = "proto3";
+package alerter;
+
+import "google/protobuf/timestamp.proto";
+import "instance.proto";
+
+option go_package = "./pbgen";
+
+enum URGENCY{
+    LAX=0;
+    IMMEDIATE=2;
+    IMPORTANT=1;
+}
+
+
+message AlertDetail{
+    bool updateflag = 1;
+    google.protobuf.Timestamp alerttime = 2;
+    repeated string URLS = 3;
+    string callinghost = 5;
+    URGENCY stallcap = 6;
+    string name = 7;
+    K8sInstance k8sorigin = 8;
+}
+
+message Alert{
+    repeated AlertDetail alerts= 1;
+}
+
+message AlertRequest{
+    Alert alert = 1;
+}
+message AlertResponse{
+    string seen =1;
+}
+
+service SendAlertRequest { 
+    rpc SendAlert(AlertRequest) returns (AlertResponse) {};
+} 
