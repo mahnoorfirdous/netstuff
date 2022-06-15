@@ -1,0 +1,5 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/mahnoor/netstuff/grpcsidecar'
+protoc -I=./protodef --go_out=src/pbgen --go_opt=paths=source_relative  --go-grpc_out=src/pbgen --go-grpc_opt=paths=source_relative protodef/alert.proto
+make: Leaving directory '/home/mahnoor/netstuff/grpcsidecar'
+ 
