@@ -6,7 +6,7 @@ import (
 	"grsidecar/pbgen"
 	"sync"
 
-	"github.com/hidevopsio/hiboot/pkg/utils/copier"
+	"github.com/jinzhu/copier"
 )
 
 type AlertStore struct {
@@ -14,18 +14,39 @@ type AlertStore struct {
 	store map[string]*pbgen.AlertDetail
 }
 
-var AlertDuplicateFound = errors.New("Alert is stored and will be serviced soon")
+var ErrAlertDuplicate = errors.New("alert is stored and will be serviced soon")
+
+func (as *AlertStore) ReadyAlertStore() {
+	as = &AlertStore{store: make(map[string]*pbgen.AlertDetail)}
+}
+
+func (as *AlertStore) StoreAlert(alert *pbgen.AlertList) error {
+	for _, indiv := range alert.Alerts {
+
+		if err := as.StoreLocally(indiv); err != nil {
+			if err == ErrAlertDuplicate {
+				continue //ignore the duplicate
+			} else {
+				return err
+			}
+		}
+	}
+	return nil
+}
 
 func (as *AlertStore) StoreLocally(alertr *pbgen.AlertDetail) error {
 	as.take.Lock()
 	defer as.take.Unlock()
 
 	if as.store[alertr.Name] != nil {
-		return AlertDuplicateFound
+		return ErrAlertDuplicate
 	} else {
-
+		var err error
+		as.store[alertr.Name], err = deepCopy(alertr)
+		if err != nil {
+			return err
+		}
 	}
-
 	return nil
 }
 
@@ -34,7 +55,7 @@ func deepCopy(alertr *pbgen.AlertDetail) (*pbgen.AlertDetail, error) {
 
 	err := copier.Copy(newentry, alertr)
 	if err != nil {
-		return nil, fmt.Errorf("Problems copying alert details %v", err)
+		return nil, fmt.Errorf("problems copying alert details %v", err)
 	}
 	return newentry, nil
 }

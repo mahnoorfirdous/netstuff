@@ -18,86 +18,86 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// SendAlertRequestClient is the client API for SendAlertRequest service.
+// CaterAlertRequestClient is the client API for CaterAlertRequest service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type SendAlertRequestClient interface {
-	SendAlert(ctx context.Context, in *AlertRequest, opts ...grpc.CallOption) (*AlertResponse, error)
+type CaterAlertRequestClient interface {
+	CaterAlert(ctx context.Context, in *AlertRequest, opts ...grpc.CallOption) (*AlertResponse, error)
 }
 
-type sendAlertRequestClient struct {
+type caterAlertRequestClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewSendAlertRequestClient(cc grpc.ClientConnInterface) SendAlertRequestClient {
-	return &sendAlertRequestClient{cc}
+func NewCaterAlertRequestClient(cc grpc.ClientConnInterface) CaterAlertRequestClient {
+	return &caterAlertRequestClient{cc}
 }
 
-func (c *sendAlertRequestClient) SendAlert(ctx context.Context, in *AlertRequest, opts ...grpc.CallOption) (*AlertResponse, error) {
+func (c *caterAlertRequestClient) CaterAlert(ctx context.Context, in *AlertRequest, opts ...grpc.CallOption) (*AlertResponse, error) {
 	out := new(AlertResponse)
-	err := c.cc.Invoke(ctx, "/alerter.SendAlertRequest/SendAlert", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/alerter.CaterAlertRequest/CaterAlert", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// SendAlertRequestServer is the server API for SendAlertRequest service.
-// All implementations must embed UnimplementedSendAlertRequestServer
+// CaterAlertRequestServer is the server API for CaterAlertRequest service.
+// All implementations must embed UnimplementedCaterAlertRequestServer
 // for forward compatibility
-type SendAlertRequestServer interface {
-	SendAlert(context.Context, *AlertRequest) (*AlertResponse, error)
-	mustEmbedUnimplementedSendAlertRequestServer()
+type CaterAlertRequestServer interface {
+	CaterAlert(context.Context, *AlertRequest) (*AlertResponse, error)
+	mustEmbedUnimplementedCaterAlertRequestServer()
 }
 
-// UnimplementedSendAlertRequestServer must be embedded to have forward compatible implementations.
-type UnimplementedSendAlertRequestServer struct {
+// UnimplementedCaterAlertRequestServer must be embedded to have forward compatible implementations.
+type UnimplementedCaterAlertRequestServer struct {
 }
 
-func (UnimplementedSendAlertRequestServer) SendAlert(context.Context, *AlertRequest) (*AlertResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SendAlert not implemented")
+func (UnimplementedCaterAlertRequestServer) CaterAlert(context.Context, *AlertRequest) (*AlertResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CaterAlert not implemented")
 }
-func (UnimplementedSendAlertRequestServer) mustEmbedUnimplementedSendAlertRequestServer() {}
+func (UnimplementedCaterAlertRequestServer) mustEmbedUnimplementedCaterAlertRequestServer() {}
 
-// UnsafeSendAlertRequestServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to SendAlertRequestServer will
+// UnsafeCaterAlertRequestServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to CaterAlertRequestServer will
 // result in compilation errors.
-type UnsafeSendAlertRequestServer interface {
-	mustEmbedUnimplementedSendAlertRequestServer()
+type UnsafeCaterAlertRequestServer interface {
+	mustEmbedUnimplementedCaterAlertRequestServer()
 }
 
-func RegisterSendAlertRequestServer(s grpc.ServiceRegistrar, srv SendAlertRequestServer) {
-	s.RegisterService(&SendAlertRequest_ServiceDesc, srv)
+func RegisterCaterAlertRequestServer(s grpc.ServiceRegistrar, srv CaterAlertRequestServer) {
+	s.RegisterService(&CaterAlertRequest_ServiceDesc, srv)
 }
 
-func _SendAlertRequest_SendAlert_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _CaterAlertRequest_CaterAlert_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AlertRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SendAlertRequestServer).SendAlert(ctx, in)
+		return srv.(CaterAlertRequestServer).CaterAlert(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/alerter.SendAlertRequest/SendAlert",
+		FullMethod: "/alerter.CaterAlertRequest/CaterAlert",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SendAlertRequestServer).SendAlert(ctx, req.(*AlertRequest))
+		return srv.(CaterAlertRequestServer).CaterAlert(ctx, req.(*AlertRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// SendAlertRequest_ServiceDesc is the grpc.ServiceDesc for SendAlertRequest service.
+// CaterAlertRequest_ServiceDesc is the grpc.ServiceDesc for CaterAlertRequest service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var SendAlertRequest_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "alerter.SendAlertRequest",
-	HandlerType: (*SendAlertRequestServer)(nil),
+var CaterAlertRequest_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "alerter.CaterAlertRequest",
+	HandlerType: (*CaterAlertRequestServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "SendAlert",
-			Handler:    _SendAlertRequest_SendAlert_Handler,
+			MethodName: "CaterAlert",
+			Handler:    _CaterAlertRequest_CaterAlert_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

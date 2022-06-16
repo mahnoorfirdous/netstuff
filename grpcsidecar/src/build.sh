@@ -1,12 +1,14 @@
 #!/bin/bash
 
-set -euo pipefail
+# set -euo pipefail
 
-. env.sh
+# . env.sh
 
-pushd src/service
-	rm -f go.mod
-	go mod init service
-	go mod tidy
-	go build -o $PROJ_ROOT/service service//main.go
-popd
+# pushd service
+# 	rm -f go.mod
+# 	go mod init grsidecar
+# 	go mod tidy
+# 	go build -o $PROJ_ROOT/main plugin/server/main.go
+# popd
+
+go build plugin/server/main.go 

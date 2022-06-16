@@ -23,17 +23,18 @@ message AlertDetail{
     K8sInstance k8sorigin = 8;
 }
 
-message Alert{
+message AlertList{
     repeated AlertDetail alerts= 1;
 }
 
 message AlertRequest{
-    Alert alert = 1;
+    AlertList alertsbatch = 1;
+    string cid = 2;
 }
 message AlertResponse{
     string seen =1;
 }
 
-service SendAlertRequest { 
-    rpc SendAlert(AlertRequest) returns (AlertResponse) {};
+service CaterAlertRequest { 
+    rpc CaterAlert(AlertRequest) returns (AlertResponse) {};
 } 
