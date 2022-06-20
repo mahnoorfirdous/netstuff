@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"grsidecar/pbgen"
 	"grsidecar/service"
 	"net"
@@ -10,7 +11,7 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
-func StartAlertServer() error {
+func StartAlertServer(port int) error {
 	alertServer := service.NewAlertCaterServer(&service.AlertStore{})
 
 	grpcServer := grpc.NewServer()
@@ -27,5 +28,6 @@ func StartAlertServer() error {
 
 func main() {
 
-	StartAlertServer()
+	serveon := flag.Int("port", 0, "the port on which the server will listen")
+	StartAlertServer(*serveon)
 }

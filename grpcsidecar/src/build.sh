@@ -11,4 +11,4 @@
 # 	go build -o $PROJ_ROOT/main plugin/server/main.go
 # popd
 
-go build plugin/server/main.go 
+GOARCH=amd64 GOOS=linux go build plugin/server/main.go

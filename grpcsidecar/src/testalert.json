@@ -1,10 +1,11 @@
 {"alertsbatch": [{
 
-    "alertdetail":{
-    "alerts":[
+    "alertdetail":
+    {
+        "alerts":[
 
-    ]
-}
+        ]
+    }
 
     }
 ]

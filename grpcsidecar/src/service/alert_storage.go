@@ -17,14 +17,14 @@ type AlertStore struct {
 var ErrAlertDuplicate = errors.New("alert is stored and will be serviced soon")
 
 func (as *AlertStore) ReadyAlertStore() {
-	as = &AlertStore{store: make(map[string]*pbgen.AlertDetail)}
+	*as = AlertStore{store: make(map[string]*pbgen.AlertDetail)}
 }
 
 func (as *AlertStore) StoreAlert(alert *pbgen.AlertList) error {
 	for _, indiv := range alert.Alerts {
 
 		if err := as.StoreLocally(indiv); err != nil {
-			if err == ErrAlertDuplicate {
+			if errors.Is(err, ErrAlertDuplicate) {
 				continue //ignore the duplicate
 			} else {
 				return err
