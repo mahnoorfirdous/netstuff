@@ -24,6 +24,7 @@ func main() {
 	AlertClient := pbgen.NewCaterAlertRequestClient(connection)
 	alert := sample.NewAlert()
 
-	AlertClient.CaterAlert(context.Background(), alert)
+	response, err := AlertClient.CaterAlert(context.Background(), alert)
 
+	log.Println(response.Seen, err)
 }

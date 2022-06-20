@@ -27,7 +27,7 @@ func (s *AlertRequestServer) CaterAlert(ctx context.Context, req *pbgen.AlertReq
 		return nil, status.Errorf(codes.InvalidArgument,
 			"Sorry, you need to provide the parameters! Please call UnimplementedDescribeAlert for info!")
 	} else {
-		log.Infof("Received request to service an alert with name : %s", req.Cid)
+		log.Infof("Received request to service an alert with cid : %s", req.Cid)
 		s.AlertsMem.StoreAlert(alert)
 		log.Debug("Alert is Stored : %v", s.AlertsMem.store)
 	}

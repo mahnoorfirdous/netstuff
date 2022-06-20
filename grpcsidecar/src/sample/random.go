@@ -44,17 +44,6 @@ func randomURL() []string {
 		return URLlist[end:begin]
 	}
 
-	return nil
-}
-
-var m map[string]int64 = map[string]int64{}
-
-func SumIntsOrFloats[K comparable, V int64 | float64](m map[K]V) V {
-	var s V
-	for _, v := range m {
-		s += v
-	}
-	return s
 }
 
 func getHostname() (hostname string) {
@@ -66,6 +55,10 @@ func getHostname() (hostname string) {
 	}
 }
 
+func randomName() string {
+	return ""
+}
+
 func randomAlert() *pbgen.AlertDetail {
 	return &pbgen.AlertDetail{
 		Updateflag:  randomUpdate(),
@@ -73,6 +66,7 @@ func randomAlert() *pbgen.AlertDetail {
 		URLS:        randomURL(),
 		Callinghost: getHostname(),
 		K8Sorigin:   randomK8sinstance(),
+		Name:        randomName(),
 	}
 }
 
