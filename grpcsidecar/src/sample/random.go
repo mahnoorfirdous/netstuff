@@ -30,6 +30,8 @@ var contexts []string = []string{
 	"random-context", "mycluster204", "cocoa_943", "minikube", "kubeadm",
 }
 
+var Names Samplewords = Samplewords{}
+
 func randomUpdate() bool {
 	return rand.Intn(2) == 1
 }
@@ -43,7 +45,6 @@ func randomURL() []string {
 	} else {
 		return URLlist[end:begin]
 	}
-
 }
 
 func getHostname() (hostname string) {
@@ -55,10 +56,6 @@ func getHostname() (hostname string) {
 	}
 }
 
-func randomName() string {
-	return ""
-}
-
 func randomAlert() *pbgen.AlertDetail {
 	return &pbgen.AlertDetail{
 		Updateflag:  randomUpdate(),
@@ -66,7 +63,7 @@ func randomAlert() *pbgen.AlertDetail {
 		URLS:        randomURL(),
 		Callinghost: getHostname(),
 		K8Sorigin:   randomK8sinstance(),
-		Name:        randomName(),
+		Name:        Names.getrandomName(),
 	}
 }
 

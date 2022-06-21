@@ -11,16 +11,20 @@ import (
 
 type AlertStore struct {
 	take  sync.RWMutex
-	store map[string]*pbgen.AlertDetail
+	Store map[string]*pbgen.AlertDetail
 }
 
 var ErrAlertDuplicate = errors.New("alert is stored and will be serviced soon")
 
 func (as *AlertStore) ReadyAlertStore() {
-	*as = AlertStore{store: make(map[string]*pbgen.AlertDetail)}
+	*as = AlertStore{Store: make(map[string]*pbgen.AlertDetail)}
 }
 
 func (as *AlertStore) StoreAlert(alert *pbgen.AlertList) error {
+
+	if alert == nil {
+		return errors.New("alert is empty")
+	}
 	for _, indiv := range alert.Alerts {
 
 		if err := as.StoreLocally(indiv); err != nil {
@@ -38,11 +42,15 @@ func (as *AlertStore) StoreLocally(alertr *pbgen.AlertDetail) error {
 	as.take.Lock()
 	defer as.take.Unlock()
 
-	if as.store[alertr.Name] != nil {
+	if alertr == nil {
+		return errors.New("alert is empty")
+	}
+
+	if as.Store[alertr.Name] != nil {
 		return ErrAlertDuplicate
 	} else {
 		var err error
-		as.store[alertr.Name], err = deepCopy(alertr)
+		as.Store[alertr.Name], err = deepCopy(alertr)
 		if err != nil {
 			return err
 		}

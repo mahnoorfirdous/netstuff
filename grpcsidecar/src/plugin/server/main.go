@@ -19,6 +19,7 @@ func StartAlertServer(port string) error {
 	reflection.Register(grpcServer)
 	listener, err := net.Listen("tcp", port)
 	if err != nil {
+		log.Fatalf("Could not start listener... %v\n", err)
 		return err
 	}
 	log.Info("Starting GRPC Listener...")
@@ -29,5 +30,6 @@ func StartAlertServer(port string) error {
 func main() {
 
 	serveon := flag.String("port", "0", "the port on which the server will listen")
+	flag.Parse()
 	StartAlertServer(*serveon)
 }

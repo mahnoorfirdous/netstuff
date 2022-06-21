@@ -28,8 +28,12 @@ func (s *AlertRequestServer) CaterAlert(ctx context.Context, req *pbgen.AlertReq
 			"Sorry, you need to provide the parameters! Please call UnimplementedDescribeAlert for info!")
 	} else {
 		log.Infof("Received request to service an alert with cid : %s", req.Cid)
-		s.AlertsMem.StoreAlert(alert)
-		log.Debug("Alert is Stored : %v", s.AlertsMem.store)
+		err := s.AlertsMem.StoreAlert(alert)
+		if err != nil {
+			log.Debugf("%v", err)
+		} else {
+			log.Printf("Alert is Stored : %v/n", s.AlertsMem.Store)
+		}
 	}
 
 	if ctx.Err() == context.DeadlineExceeded {

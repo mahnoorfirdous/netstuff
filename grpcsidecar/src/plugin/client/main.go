@@ -22,7 +22,8 @@ func main() {
 	}
 
 	AlertClient := pbgen.NewCaterAlertRequestClient(connection)
-	alert := sample.NewAlert()
+	sample.Names.Initstore(3)
+	alert := sample.NewAlert() //we only have 3 alert objects for readibility right now
 
 	response, err := AlertClient.CaterAlert(context.Background(), alert)
 

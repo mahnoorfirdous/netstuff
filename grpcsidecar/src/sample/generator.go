@@ -4,7 +4,7 @@ import "grsidecar/pbgen"
 
 func NewAlert() *pbgen.AlertRequest {
 	return &pbgen.AlertRequest{
-		Cid:         "",
+		Cid:         "4tgghhr",
 		Alertsbatch: NewAlertsList(),
 	}
 }
