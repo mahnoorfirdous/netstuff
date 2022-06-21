@@ -19,10 +19,10 @@ RUN apt-get install -y \
 RUN wget https://dl.google.com/go/go1.18.3.linux-amd64.tar.gz && \
     tar -xvf go1.18.3.linux-amd64.tar.gz && cd /usr/local/go/bin && \
     ln -fs /usr/local/go/bin/go* /usr/local/bin
-WORKDIR /sidecar
-RUN source protoc-plugins.sh
+
 WORKDIR /sidecar/src
 RUN go get google.golang.org/grpc
 WORKDIR /sidecar
+RUN source protoc-plugins.sh
 RUN make codegen && \
     make bins
