@@ -1,5 +1,5 @@
 FROM ubuntu:20.04
-ADD . /sidecar
+COPY . /sidecar
 WORKDIR /usr/local
 
 #use bash
