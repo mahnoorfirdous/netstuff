@@ -22,7 +22,7 @@ RUN wget https://dl.google.com/go/go1.18.3.linux-amd64.tar.gz && \
 
 WORKDIR /sidecar/src
 RUN go get google.golang.org/grpc
+RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28 && go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2
 WORKDIR /sidecar
-RUN source protoc-plugins.sh
-RUN make codegen && \
+RUN source protoc-plugins.sh &&  make codegen && \
     make bins
