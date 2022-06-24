@@ -1,0 +1,6 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/mahnoor/netstuff/grpcsidecar/protodemo'
+protoc -I=./ --go_out=. ./message_def.proto
+GOOS=linux GOARCH=386 CGO_ENABLED=0 go build -o protobufexample ./example/example.go
+make: Leaving directory '/home/mahnoor/netstuff/grpcsidecar/protodemo'
+ 

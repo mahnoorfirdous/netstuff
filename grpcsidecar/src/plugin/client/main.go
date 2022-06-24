@@ -25,7 +25,9 @@ func main() {
 	sample.Names.Initstore(3)
 	alert := sample.NewAlert() //we only have 3 alert objects for readibility right now
 
-	response, err := AlertClient.CaterAlert(context.Background(), alert)
-
+	response, err := AlertClient.CaterAlert(context.Background(), alert, grpc.WithTransportCredentials)
+	if err != nil {
+		log.Fatalln("Cannot receive response from server! Error: ", err)
+	}
 	log.Println(response.Seen, err)
 }

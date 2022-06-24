@@ -4,6 +4,7 @@ import (
 	"context"
 	"grsidecar/pbgen"
 
+	"github.com/google/uuid"
 	log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -22,6 +23,14 @@ func NewAlertCaterServer(AS *AlertStore) *AlertRequestServer { //if assoicated w
 func (s *AlertRequestServer) CaterAlert(ctx context.Context, req *pbgen.AlertRequest,
 ) (*pbgen.AlertResponse, error) {
 
+	if len(req.Cid) > 0 {
+		_, err := uuid.Parse(req.Cid)
+		if err != nil {
+			return nil, status.Errorf(codes.InvalidArgument, "not a valid uuid %v", err)
+		}
+	} else {
+		return nil, status.Errorf(codes.NotFound, "please provide a CID ")
+	}
 	alert := req.GetAlertsbatch()
 	if alert == nil {
 		return nil, status.Errorf(codes.InvalidArgument,

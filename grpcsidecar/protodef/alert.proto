@@ -35,6 +35,19 @@ message AlertResponse{
     string seen =1;
 }
 
+message DescriptionRequest{
+    string giveme=1;
+}
+
+message RetrieveAlertRequest {
+    string cid=1;
+}
+
+message AlertSchema {
+    string schema=1;
+}
 service CaterAlertRequest { 
     rpc CaterAlert(AlertRequest) returns (AlertResponse) {};
+    rpc DescribeAlert(DescriptionRequest) returns (AlertRequest) {};
+    rpc RetrieveAlert(RetrieveAlertRequest) returns (AlertList) {};
 } 

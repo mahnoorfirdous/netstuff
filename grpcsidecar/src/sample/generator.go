@@ -1,10 +1,14 @@
 package sample
 
-import "grsidecar/pbgen"
+import (
+	"grsidecar/pbgen"
+
+	"github.com/google/uuid"
+)
 
 func NewAlert() *pbgen.AlertRequest {
 	return &pbgen.AlertRequest{
-		Cid:         "4tgghhr",
+		Cid:         uuid.New().String(),
 		Alertsbatch: NewAlertsList(),
 	}
 }
