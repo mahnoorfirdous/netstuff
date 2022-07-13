@@ -2,6 +2,7 @@ package token
 
 import (
 	"errors"
+	"fmt"
 	"time"
 
 	"github.com/google/uuid"
@@ -34,5 +35,11 @@ func NewPayload(username string, span time.Duration) (*Payload, error) {
 }
 
 func (p *Payload) Valid() error {
+
+	if time.Now().After(p.ExpireTime) {
+		fmt.Printf("%v, %v\n", p.ExpireTime, time.Now())
+		fmt.Printf("%v\n", ErrTokenXpired)
+		return ErrTokenXpired
+	}
 	return nil
 }
