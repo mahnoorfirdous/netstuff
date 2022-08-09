@@ -1,10 +1,8 @@
-package token_test
+package token
 
 import (
 	"testing"
 	"time"
-
-	. "jwtry"
 
 	"github.com/golang-jwt/jwt"
 	"github.com/stretchr/testify/require"

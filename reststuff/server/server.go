@@ -1,41 +1,59 @@
-package main
+package restapi
 
 import (
-	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
-	"pseudo/data"
-	//TODO: Add routing implementations and imports
+	token "samplerest/token"
+	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
-type Notebook struct {
-	Model        string `json:"model"`
-	Manufacturer string `json:"manufacturer"`
-	Width        string `json:"width"`
+type Config struct {
+	TokenSymmetricKey   string
+	AccessTokenDuration time.Duration
 }
 
-var notebooks []Notebook
-
-func homepage(rw http.ResponseWriter, req *http.Request) {
-	fmt.Fprintf(rw, "<h1> Welcome! You are at the homepage </h1>\n")
-	fmt.Println("Hit Endpoint /: home ")
-	fmt.Fprintf(rw, "<p> Sorry this isn't a fashionable page </p>")
+type Server struct {
+	sconfig Config
+	token   token.Maker
+	router  *gin.Engine
+	mockdb  AllStore
 }
 
-func handle_requests() {
-	http.HandleFunc("/", homepage)
-	http.HandleFunc("/notebooks", getNotebooks)
-	log.Fatal(http.ListenAndServe(":8003", nil)) //TODO: Secure with TLS
+type LocalStorage struct {
+	Registration RegisterParams
+	Purchases    Notebook
 }
 
-func getNotebooks(rw http.ResponseWriter, req *http.Request) {
-	fmt.Println("Hit Endpoint /: notebooks")
-	json.NewEncoder(rw).Encode(notebooks)
-	identity, err := data.GetUserFromAuth(req.Header.Get("Authorization"))
+type AllStore struct {
+	Users     map[string]LocalStorage
+	Notebooks []Notebook
 }
 
-func main() {
-	handle_requests()
+func NewServer(sconfig Config) (*Server, error) {
 
+	server := &Server{mockdb: AllStore{Users: make(map[string]LocalStorage)}}
+	_, err := token.NewPasetoMaker(sconfig.TokenSymmetricKey)
+	if err != nil {
+		return nil, fmt.Errorf("cannot create token maker %w", err)
+	}
+
+	router := gin.Default()
+	router.LoadHTMLGlob("../templates/*.html")
+	//Routing
+	router.POST("/accounts", server.Register)
+	router.GET("/", func(ctx *gin.Context) {
+		ctx.HTML(http.StatusOK, "index.html", gin.H{
+			"content": "Simple index page",
+		})
+	})
+	//TODO: Only special users like admin should be able to use this handle
+	router.PUT("/notebooks", server.AddNotebook)
+	server.router = router
+	return server, nil
+}
+
+func (sv *Server) Start(address string) error {
+	return sv.router.Run(address)
 }

@@ -1,7 +1,7 @@
 package token_test
 
 import (
-	. "jwtry"
+	. "samplerest/token"
 	"testing"
 	"time"
 
