@@ -41,7 +41,7 @@ func logMessages(rw http.ResponseWriter, req *http.Request) {
 		fmt.Printf("server: I don't get it %s\n", err)
 	}
 	log.Printf("Received %s\n", contents)
-	fmt.Fprint(rw, string(contents))
+	rw.Write(contents)
 }
 
 func main() {
