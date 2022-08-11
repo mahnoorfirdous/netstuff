@@ -39,6 +39,9 @@ func hitlog() {
 
 	fmt.Printf("Sending schema to %s\n", URL)
 	contentsrep, prob := ioutil.ReadAll(contents.Body)
+	if prob != nil {
+		fmt.Printf("Could not read response -- %v %s", prob, URL)
+	}
 	fmt.Printf("%s", contentsrep)
 }
 
